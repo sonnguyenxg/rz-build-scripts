@@ -144,6 +144,12 @@ get_bsp(){
     git clone https://git.yoctoproject.org/git/poky
     cd poky
     git checkout dunfell-23.0.26
+    if [ ! -e "${WORKSPACE}/0001-meta-classes-esdk-explicitly-address-the-location-of.patch" ]; then
+        echo "SDK patch 0001-meta-classes-esdk-explicitly-address-the-location-of.patch not present in this workspace ($WORKSPACE)"
+        echo "This patch is essential for the build. Please check!"
+        exit
+    fi
+    git apply ${WORKSPACE}/0001-meta-classes-esdk-explicitly-address-the-location-of.patch
     cd ..
 
     git clone https://github.com/openembedded/meta-openembedded
@@ -169,6 +175,11 @@ get_bsp(){
     git clone https://github.com/LairdCP/meta-summit-radio.git -b lrd-11.39.0.x
     # Add patch for meta-summit-radio to support eSDK build
     cd meta-summit-radio
+    if [ ! -e "${WORKSPACE}/0001-rzsbc-summit-radio-pre-3.4-support-eSDK-build.patch" ]; then
+        echo "SDK patch 0001-rzsbc-summit-radio-pre-3.4-support-eSDK-build.patch not present in this workspace ($WORKSPACE)."
+        echo "This patch is essential for the build. Please check!"
+        exit
+    fi
     git apply ${WORKSPACE}/0001-rzsbc-summit-radio-pre-3.4-support-eSDK-build.patch
     cd ..
 
